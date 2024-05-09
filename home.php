@@ -6,7 +6,7 @@
     <button style='margin:5px; background-color: blue; font-size: 15px;'><a href='insert.php'; style='color: white;'>Add New Student</a></button>
     <input id="serchbyid"type="text" placeholder="Search by Id" name="fid">
     <button id="sbtn" type="submit" style='margin:5px' name="search"><a>Search</a></button>
-    <button id="bbtn" type="submit" style='margin:5px' name="back"><a>Back</a></button>
+   
 </form></div>
 </body></html>
 
@@ -27,13 +27,16 @@ if(isset($_POST['search']) && !empty($_POST['fid'])){
     echo "<html><head> 
     
     <H1 style='margin:30px;'> Student Data </H1>
+    <button id='bbtn' style='margin:5px' name='back'><a href='home.php'>Back</a></button>
 
     <div align='center'>
+    
     <table border='1px' style='margin:10px;'> 
 
 
     <tr >
         <th>ID</th>
+        <th>Photo</th>
         <th>Name </th>
         <th>Gender </th>
         <th>Birthday</th>
@@ -45,6 +48,7 @@ if(isset($_POST['search']) && !empty($_POST['fid'])){
     while($row=mysqli_fetch_assoc($result))
     {
         $sid=$row['sid'];
+        $simg=$row['simg'];
         $sname=$row['sname'];
         $sgender=$row['sgender'];
         $sbirth=$row['sbirth'];
@@ -53,6 +57,7 @@ if(isset($_POST['search']) && !empty($_POST['fid'])){
         $scontact=$row['scontact'];
 
         echo "<tr> <td>".$sid;
+        echo "</td><td><img src='".$simg."' width='50px' height='50px'>";
         echo "</td><td>". $sname;
         echo "</td> <td>".$sgender;
         echo"</td><td>".$sbirth;
@@ -87,6 +92,7 @@ if($result)
 
     <tr >
         <th>ID</th>
+        <th>Photo</th>
         <th>Name </th>
         <th>Gender </th>
         <th>Birthday</th>
@@ -98,6 +104,7 @@ if($result)
     while($row=mysqli_fetch_assoc($result))
     {
         $sid=$row['sid'];
+        $simg=$row['simg'];
         $sname=$row['sname'];
         $sgender=$row['sgender'];
         $sbirth=$row['sbirth'];
@@ -106,6 +113,7 @@ if($result)
         $scontact=$row['scontact'];
 
         echo "<tr> <td>".$sid;
+        echo "</td><td><img src='".$simg."' width='50px' height='50px'>";
         echo "</td><td>". $sname;
         echo "</td> <td>".$sgender;
         echo"</td><td>".date('d/m/y',strtotime($sbirth));

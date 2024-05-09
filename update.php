@@ -7,6 +7,7 @@ $id=$_GET['uid'];
 $sql="SELECT * FROM STUDENT WHERE sid=$id";
 $result=mysqli_query($conn,$sql);
 $row=mysqli_fetch_assoc($result);
+$timg=$row['simg'];
 $tname=$row['sname'];
 $tgender=$row['sgender'];
 $tbirth=$row['sbirth'];
@@ -19,10 +20,27 @@ extract($_REQUEST);
 
 if(isset($_POST['submit']))
 {
-  
+    $simg=$timg;
+    if(!empty($_FILES['simg']['name']))
+    {
+        $imgname= $_FILES['simg']['name'];
+        $folder="img/";
+        $simg=$folder.$imgname;
+        $tempfile=$_FILES['simg']['tmp_name'];
 
+        if($timg!="img/null.png")
+        {
+            move_uploaded_file($tempfile,$simg);
+            unlink($timg);
+        }
 
-$sql = "UPDATE STUDENT SET sname='$sname', sgender='$gender', sbirth='$sbirth', sfather='$sfather', smother='$smother',scontact='$scontact' WHERE sid='$id'";
+        else
+        {
+            move_uploaded_file($tempfile,$simg);
+        }
+    }
+
+$sql = "UPDATE STUDENT SET simg='$simg', sname='$sname', sgender='$gender', sbirth='$sbirth', sfather='$sfather', smother='$smother',scontact='$scontact' WHERE sid='$id'";
 $result=mysqli_query($conn,$sql);
 
 if($result)
@@ -37,11 +55,16 @@ if($result)
 
 <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-<body> <form method="post"> <div align="center" > 
+<body> <form method="post" enctype="multipart/form-data"> <div align="center" > 
+<button id="backhome"><a href="home.php">Back</a></button>
 <H1 style="margin:30px;"> Update Student Data </H1>
 <table style="margin:10px;">
 
-
+<tr>
+    <td> Student Photo: </td>
+    <td><img src=<?php echo $timg; ?> width='50px' height='50px'></td>
+    <td> <input type="file" name="simg"> </td>
+</tr>
 <tr>
     <td> Student Name: </td>
     <td> <input type="text" name="sname" value="<?php echo $tname; ?>" required> </td>

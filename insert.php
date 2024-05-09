@@ -14,9 +14,23 @@ extract($_REQUEST);
 if(isset($_POST['submit']))
 {
   
+    $simg="img/null.png";
+
+    if(!empty($_FILES['simg']['name']))
+    {
+        $imgname= $_FILES['simg']['name'];
+        $folder="img/";
+        $simg=$folder.$imgname;
+        $tempfile=$_FILES['simg']['tmp_name'];
+        move_uploaded_file($tempfile,$simg);
+    }
+
+    
+
+    
 
 
-$sql = "INSERT INTO STUDENT VALUES('$sid','$sname','$gender', '$sbirth', '$sfather', '$smother','$scontact')";
+$sql = "INSERT INTO STUDENT(sid,simg,sname,sgender,sbirth,sfather,smother,scontact) VALUES('$sid','$simg', '$sname','$gender', '$sbirth', '$sfather', '$smother','$scontact')";
 $result=mysqli_query($conn,$sql);
 
 if($result)
@@ -30,7 +44,7 @@ if($result)
 
 
 <html><head><link rel="stylesheet" type="text/css" href="styles.css"></head>
-<body> <form method="post"> <div align="center" > 
+<body> <form method="post" enctype="multipart/form-data"> <div align="center" > 
 
 <button id="backhome"><a href="home.php">Back</a></button>
 
@@ -39,6 +53,12 @@ if($result)
 <tr> 
     <td>Student ID: </td>
     <td> <input type="text" name="sid" readonly value="<?php echo $pid; ?>" > </td>
+
+</tr>
+
+<tr> 
+    <td>Student IMG: </td>
+    <td> <input type="file" name="simg"> </td>
 
 </tr>
 
